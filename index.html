@@ -10,148 +10,222 @@
 </head>
 <body>
     <!-- Navbar estilo marketplace -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-2 shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2 shadow-sm">
         <div class="container">
             <!-- Logo à esquerda -->
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="logo.png" alt="Logo" width="36" height="36" class="me-2">
-                <span class="fw-bold fs-5">Minha Loja</span>
+                <img src="midias/Logo_economizzi.png" alt="Logo" width="40" height="40" class="me-2" style="background: #fff; border-radius: 8px; padding: 2px; box-shadow: 0 0 8px #ffc107;">
+                <span class="fw-bold fs-5">Economizzi</span>
             </a>
             <!-- Botão mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavCenter" aria-controls="navbarNavCenter" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- Barra de busca centralizada -->
-            <div class="collapse navbar-collapse" id="navbarNavCenter">
-                <form class="d-flex mx-lg-4 my-3 my-lg-0 flex-grow-1" role="search">
-                    <input class="form-control me-2 rounded-pill" type="search" placeholder="Buscar produtos, marcas e muito mais..." aria-label="Buscar">
-                    <button class="btn btn-warning rounded-pill px-3" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </form>
-                <!-- Links e ícones à direita -->
-                <ul class="navbar-nav ms-lg-4 mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Ofertas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Categorias</a>
-                    </li>
-                    <li class="nav-item position-relative mx-lg-2">
-                    </li>
-                    <!-- Login Dropdown -->
-                    <li class="nav-item dropdown mx-lg-2">
-                        <a class="nav-link text-white dropdown-toggle d-flex align-items-center" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Login">
-                            <img src="midias/logo vazia.png" alt="Logo Login" width="28" height="28" class="me-1 rounded-circle border border-white" style="background: #fff;">
-                            <i class="bi bi-person fs-5"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="loginDropdown" style="min-width: 250px;">
-                            <form>
-                                <div class="mb-2">
-                                    <label for="loginEmail" class="form-label mb-1 small">E-mail</label>
-                                    <input type="email" class="form-control form-control-sm" id="loginEmail" placeholder="Digite seu e-mail">
-                                </div>
-                                <div class="mb-2">
-                                    <label for="loginSenha" class="form-label mb-1 small">Senha</label>
-                                    <input type="password" class="form-control form-control-sm" id="loginSenha" placeholder="Digite sua senha">
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-sm w-100 mb-2">Entrar</button>
-                            </form>
-                            <div class="text-center">
-                                <span class="small">Não tem uma conta?</span><br>
-                                <a href="#" class="small text-primary text-decoration-underline">Criar conta</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <!-- Carrinho -->
+            <button class="btn btn-warning position-relative ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#carrinhoOffcanvas" aria-controls="carrinhoOffcanvas">
+                <i class="bi bi-cart-fill"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="carrinhoQtd">0</span>
+            </button>
         </div>
     </nav>
 
+    <!-- Offcanvas Carrinho -->
+    <div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="carrinhoOffcanvas" aria-labelledby="carrinhoOffcanvasLabel">
+      <div class="offcanvas-header border-bottom border-secondary">
+        <h5 class="offcanvas-title" id="carrinhoOffcanvasLabel"><i class="bi bi-cart-fill me-2"></i>Carrinho</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column">
+        <div id="carrinhoItens" class="flex-grow-1"></div>
+        <div class="border-top border-secondary pt-3 mt-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="fw-bold">Subtotal</span>
+            <span id="carrinhoSubtotal">R$ 0,00</span>
+          </div>
+          <div class="d-flex justify-content-between mb-1">
+            <span class="fw-bold">Frete</span>
+            <span id="carrinhoFrete">R$ 30,00</span>
+          </div>
+          <div class="d-flex justify-content-between fs-5 fw-bold text-warning mb-2">
+            <span>Total</span>
+            <span id="carrinhoTotal">R$ 30,00</span>
+          </div>
+          <div class="small text-secondary mb-2">O valor do frete de <span class="text-warning">R$ 30,00</span> será adicionado ao total da compra.</div>
+          <button class="btn btn-warning w-100 rounded-pill" disabled id="finalizarCompraBtn">Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Barra de categorias (scroll horizontal em mobile) -->
-    <div class="bg-white border-bottom py-2 d-none d-lg-block">
+    <div class="bg-secondary border-bottom py-2 d-none d-lg-block">
         <div class="container">
             <div class="d-flex flex-wrap gap-3">
-                <a href="#" class="text-secondary text-decoration-none small">Eletrônicos</a>
-                <a href="#" class="text-secondary text-decoration-none small">Celulares</a>
-                <a href="#" class="text-secondary text-decoration-none small">Casa</a>
-                <a href="#" class="text-secondary text-decoration-none small">Moda</a>
-                <a href="#" class="text-secondary text-decoration-none small">Esportes</a>
-                <a href="#" class="text-secondary text-decoration-none small">Mercado</a>
-                <a href="#" class="text-secondary text-decoration-none small">Livros</a>
-                <a href="#" class="text-secondary text-decoration-none small">Mais</a>
+                <a href="#" class="text-light text-decoration-none small">Casa</a>
+                <a href="#" class="text-light text-decoration-none small">Esportes</a>
+                <a href="#" class="text-light text-decoration-none small">Moda</a>
+                <a href="#" class="text-light text-decoration-none small">Mais</a>
             </div>
         </div>
     </div>
-    <div class="bg-white border-bottom py-2 d-lg-none">
+    <div class="bg-secondary border-bottom py-2 d-lg-none">
         <div class="container-fluid px-2">
             <div class="d-flex overflow-auto gap-3">
-                <a href="#" class="text-secondary text-decoration-none small flex-shrink-0">Eletrônicos</a>
-                <a href="#" class="text-secondary text-decoration-none small flex-shrink-0">Celulares</a>
-                <a href="#" class="text-secondary text-decoration-none small flex-shrink-0">Casa</a>
-                <a href="#" class="text-secondary text-decoration-none small flex-shrink-0">Moda</a>
-                <a href="#" class="text-secondary text-decoration-none small flex-shrink-0">Esportes</a>
-                <a href="#" class="text-secondary text-decoration-none small flex-shrink-0">Mercado</a>
-                <a href="#" class="text-secondary text-decoration-none small flex-shrink-0">Livros</a>
-                <a href="#" class="text-secondary text-decoration-none small flex-shrink-0">Mais</a>
+                <a href="#" class="text-light text-decoration-none small flex-shrink-0">Casa</a>
+                <a href="#" class="text-light text-decoration-none small flex-shrink-0">Moda</a>
+                <a href="#" class="text-light text-decoration-none small flex-shrink-0">Esportes</a>
+                <a href="#" class="text-light text-decoration-none small flex-shrink-0">Mais</a>
             </div>
         </div>
+    </div>
+
+    <!-- Modal Produto (estilo Amazon) -->
+    <div class="modal fade" id="produtoModal" tabindex="-1" aria-labelledby="produtoModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+          <div class="modal-header border-secondary">
+            <h5 class="modal-title" id="produtoModalLabel">Produto</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-4">
+              <div class="col-md-5">
+                <!-- Carrossel de imagens -->
+                <div id="produtoCarousel" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-inner" id="produtoCarouselInner">
+                    <!-- Imagens inseridas via JS -->
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#produtoCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#produtoCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </button>
+                </div>
+                <div class="d-flex gap-2 mt-2" id="produtoThumbs">
+                  <!-- Miniaturas via JS -->
+                </div>
+              </div>
+              <div class="col-md-7">
+                <h3 id="produtoTitulo" class="fw-bold"></h3>
+                <p id="produtoDescricao" class="mb-2"></p>
+                <p class="fs-4 text-warning fw-bold mb-3" id="produtoPreco"></p>
+                <button class="btn btn-warning btn-lg rounded-pill w-100 mb-2" id="modalAdicionarCarrinhoBtn">Adicionar ao carrinho</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Conteúdo principal -->
     <main class="container my-4">
-        <h1 class="mb-4 fs-3 fw-bold">Bem-vindo à Minha Loja!</h1>
+        <h1 class="mb-4 fs-3 fw-bold text-white">Bem-vindo à Economizzi!</h1>
         <!-- Grid de produtos responsivo -->
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3" id="produtosGrid1">
             <!-- Produto exemplo -->
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 1","descricao":"Descrição detalhada do Produto 1. Excelente qualidade e ótimo preço.","preco":"R$ 99,90","imagens":["https://via.placeholder.com/400x400?text=Produto+1","https://via.placeholder.com/400x400/ffc107/181a1b?text=Produto+1+Foto+2","https://via.placeholder.com/400x400/181a1b/ffc107?text=Produto+1+Foto+3"]}'>
                     <img src="https://via.placeholder.com/200x200?text=Produto+1" class="card-img-top" alt="Produto 1">
                     <div class="card-body p-2">
-                        <h6 class="card-title mb-1 text-truncate">Produto 1</h6>
-                        <p class="card-text mb-2 text-primary fw-bold">R$ 99,90</p>
-                        <button class="btn btn-sm btn-warning w-100 rounded-pill">Adicionar ao carrinho</button>
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 1</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 99,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
                     </div>
                 </div>
             </div>
             <!-- Repita os cards para mais produtos -->
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 2","descricao":"Produto 2 com recursos incríveis.","preco":"R$ 149,90","imagens":["https://via.placeholder.com/400x400?text=Produto+2","https://via.placeholder.com/400x400/ffc107/181a1b?text=Produto+2+Foto+2"]}'>
                     <img src="https://via.placeholder.com/200x200?text=Produto+2" class="card-img-top" alt="Produto 2">
                     <div class="card-body p-2">
-                        <h6 class="card-title mb-1 text-truncate">Produto 2</h6>
-                        <p class="card-text mb-2 text-primary fw-bold">R$ 149,90</p>
-                        <button class="btn btn-sm btn-warning w-100 rounded-pill">Adicionar ao carrinho</button>
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 2</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 149,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
                     </div>
                 </div>
             </div>
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 3","descricao":"Produto 3, ótimo custo-benefício.","preco":"R$ 79,90","imagens":["https://via.placeholder.com/400x400?text=Produto+3"]}'>
                     <img src="https://via.placeholder.com/200x200?text=Produto+3" class="card-img-top" alt="Produto 3">
                     <div class="card-body p-2">
-                        <h6 class="card-title mb-1 text-truncate">Produto 3</h6>
-                        <p class="card-text mb-2 text-primary fw-bold">R$ 79,90</p>
-                        <button class="btn btn-sm btn-warning w-100 rounded-pill">Adicionar ao carrinho</button>
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 3</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 79,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
                     </div>
                 </div>
             </div>
             <div class="col d-none d-md-block">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 4","descricao":"Produto 4, qualidade garantida.","preco":"R$ 59,90","imagens":["https://via.placeholder.com/400x400?text=Produto+4"]}'>
                     <img src="https://via.placeholder.com/200x200?text=Produto+4" class="card-img-top" alt="Produto 4">
                     <div class="card-body p-2">
-                        <h6 class="card-title mb-1 text-truncate">Produto 4</h6>
-                        <p class="card-text mb-2 text-primary fw-bold">R$ 59,90</p>
-                        <button class="btn btn-sm btn-warning w-100 rounded-pill">Adicionar ao carrinho</button>
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 4</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 59,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
                     </div>
                 </div>
             </div>
             <div class="col d-none d-lg-block">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 5","descricao":"Produto 5, edição limitada.","preco":"R$ 199,90","imagens":["https://via.placeholder.com/400x400?text=Produto+5"]}'>
                     <img src="https://via.placeholder.com/200x200?text=Produto+5" class="card-img-top" alt="Produto 5">
                     <div class="card-body p-2">
-                        <h6 class="card-title mb-1 text-truncate">Produto 5</h6>
-                        <p class="card-text mb-2 text-primary fw-bold">R$ 199,90</p>
-                        <button class="btn btn-sm btn-warning w-100 rounded-pill">Adicionar ao carrinho</button>
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 5</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 199,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mais abas de produtos -->
+        <h2 class="mt-5 mb-3 fs-4 fw-bold text-white">Mais Produtos</h2>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3" id="produtosGrid2">
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 6","descricao":"Produto 6, novo lançamento.","preco":"R$ 89,90","imagens":["https://via.placeholder.com/400x400?text=Produto+6"]}'>
+                    <img src="https://via.placeholder.com/200x200?text=Produto+6" class="card-img-top" alt="Produto 6">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 6</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 89,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 7","descricao":"Produto 7, sucesso de vendas.","preco":"R$ 129,90","imagens":["https://via.placeholder.com/400x400?text=Produto+7"]}'>
+                    <img src="https://via.placeholder.com/200x200?text=Produto+7" class="card-img-top" alt="Produto 7">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 7</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 129,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 8","descricao":"Produto 8, preço especial.","preco":"R$ 59,90","imagens":["https://via.placeholder.com/400x400?text=Produto+8"]}'>
+                    <img src="https://via.placeholder.com/200x200?text=Produto+8" class="card-img-top" alt="Produto 8">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 8</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 59,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-none d-md-block">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 9","descricao":"Produto 9, edição especial.","preco":"R$ 109,90","imagens":["https://via.placeholder.com/400x400?text=Produto+9"]}'>
+                    <img src="https://via.placeholder.com/200x200?text=Produto+9" class="card-img-top" alt="Produto 9">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 9</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 109,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-none d-lg-block">
+                <div class="card h-100 border-0 shadow-sm bg-dark text-white produto-card" data-produto='{"titulo":"Produto 10","descricao":"Produto 10, aproveite a oferta.","preco":"R$ 189,90","imagens":["https://via.placeholder.com/400x400?text=Produto+10"]}'>
+                    <img src="https://via.placeholder.com/200x200?text=Produto+10" class="card-img-top" alt="Produto 10">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1 text-truncate text-white">Produto 10</h6>
+                        <p class="card-text mb-2 text-warning fw-bold">R$ 189,90</p>
+                        <button class="btn btn-sm btn-warning w-100 rounded-pill adicionar-carrinho-btn">Adicionar ao carrinho</button>
                     </div>
                 </div>
             </div>
@@ -159,11 +233,231 @@
     </main>
 
     <!-- Rodapé -->
-    <footer class="bg-primary text-white text-center py-3 mt-4">
+    <footer class="bg-dark text-white text-center py-3 mt-4 border-top border-secondary">
         <span>&copy; 2024 Minha Loja. Todos os direitos reservados.</span>
     </footer>
 
     <!-- Bootstrap Bundle JS -->
     <script src="js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background: #181a1b;
+            color: #fff;
+        }
+        main .card {
+            background: #23272b;
+            color: #fff;
+        }
+        .dropdown-menu.bg-dark {
+            background: #23272b !important;
+            color: #fff !important;
+        }
+        .form-control.bg-dark {
+            background: #23272b !important;
+            color: #fff !important;
+            border-color: #444 !important;
+        }
+        .navbar, .footer, .bg-dark {
+            background: #181a1b !important;
+        }
+        .bg-secondary {
+            background: #23272b !important;
+        }
+        .produto-card {
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .produto-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 16px #ffc10744;
+        }
+        #produtoThumbs img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border: 2px solid #444;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: border-color 0.2s, opacity 0.2s;
+        }
+        #produtoThumbs img.active {
+            border-color: #ffc107;
+            opacity: 1;
+        }
+        .carrinho-item-img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-right: 10px;
+        }
+        .carrinho-item-remove {
+            cursor: pointer;
+            color: #ffc107;
+        }
+        .carrinho-item-remove:hover {
+            color: #fff;
+            text-shadow: 0 0 4px #ffc107;
+        }
+        .offcanvas {
+            width: 350px !important;
+        }
+    </style>
+    <script>
+    // Função para abrir modal com dados do produto
+    let produtoModalData = null;
+    function abrirModalProduto(produto) {
+        produtoModalData = produto;
+        document.getElementById('produtoTitulo').textContent = produto.titulo;
+        document.getElementById('produtoDescricao').textContent = produto.descricao;
+        document.getElementById('produtoPreco').textContent = produto.preco;
+
+        // Carrossel de imagens
+        const carouselInner = document.getElementById('produtoCarouselInner');
+        const thumbs = document.getElementById('produtoThumbs');
+        carouselInner.innerHTML = '';
+        thumbs.innerHTML = '';
+        produto.imagens.forEach((img, idx) => {
+            // Carrossel
+            const div = document.createElement('div');
+            div.className = 'carousel-item' + (idx === 0 ? ' active' : '');
+            div.innerHTML = `<img src="${img}" class="d-block w-100 rounded" alt="Foto do produto">`;
+            carouselInner.appendChild(div);
+            // Miniaturas
+            const thumb = document.createElement('img');
+            thumb.src = img;
+            thumb.className = idx === 0 ? 'active' : '';
+            thumb.setAttribute('data-bs-slide-to', idx);
+            thumb.setAttribute('data-bs-target', '#produtoCarousel');
+            thumb.onclick = function() {
+                const carousel = bootstrap.Carousel.getOrCreateInstance(document.getElementById('produtoCarousel'));
+                carousel.to(idx);
+            };
+            thumbs.appendChild(thumb);
+        });
+
+        // Atualiza miniatura ativa ao trocar slide
+        document.getElementById('produtoCarousel').addEventListener('slid.bs.carousel', function(e) {
+            Array.from(thumbs.children).forEach((img, i) => {
+                img.classList.toggle('active', i === e.to);
+            });
+        }, { once: true });
+
+        // Abre modal
+        const modal = new bootstrap.Modal(document.getElementById('produtoModal'));
+        modal.show();
+    }
+
+    // Carrinho
+    let carrinho = [];
+    const FRETE = 30.00;
+
+    function atualizarCarrinhoUI() {
+        const carrinhoItens = document.getElementById('carrinhoItens');
+        const carrinhoQtd = document.getElementById('carrinhoQtd');
+        const carrinhoSubtotal = document.getElementById('carrinhoSubtotal');
+        const carrinhoFrete = document.getElementById('carrinhoFrete');
+        const carrinhoTotal = document.getElementById('carrinhoTotal');
+        const finalizarCompraBtn = document.getElementById('finalizarCompraBtn');
+
+        carrinhoItens.innerHTML = '';
+        let subtotal = 0;
+        let totalQtd = 0;
+
+        if (carrinho.length === 0) {
+            carrinhoItens.innerHTML = '<div class="text-center text-secondary mt-4">Seu carrinho está vazio.</div>';
+            finalizarCompraBtn.disabled = true;
+        } else {
+            carrinho.forEach((item, idx) => {
+                subtotal += item.preco * item.qtd;
+                totalQtd += item.qtd;
+                const div = document.createElement('div');
+                div.className = 'd-flex align-items-center mb-3';
+                div.innerHTML = `
+                    <img src="${item.imagens[0]}" class="carrinho-item-img me-2" alt="${item.titulo}">
+                    <div class="flex-grow-1">
+                        <div class="fw-bold">${item.titulo}</div>
+                        <div class="small text-secondary">${item.qtd} x R$ ${item.preco.toFixed(2).replace('.', ',')}</div>
+                    </div>
+                    <div class="fw-bold text-warning me-2">R$ ${(item.preco * item.qtd).toFixed(2).replace('.', ',')}</div>
+                    <span class="carrinho-item-remove ms-2" title="Remover" data-idx="${idx}"><i class="bi bi-trash"></i></span>
+                `;
+                carrinhoItens.appendChild(div);
+            });
+            finalizarCompraBtn.disabled = false;
+        }
+
+        carrinhoQtd.textContent = totalQtd;
+        carrinhoSubtotal.textContent = 'R$ ' + subtotal.toFixed(2).replace('.', ',');
+        carrinhoFrete.textContent = 'R$ ' + FRETE.toFixed(2).replace('.', ',');
+        carrinhoTotal.textContent = 'R$ ' + (subtotal + (carrinho.length > 0 ? FRETE : 0)).toFixed(2).replace('.', ',');
+
+        // Remover item
+        carrinhoItens.querySelectorAll('.carrinho-item-remove').forEach(span => {
+            span.onclick = function() {
+                const idx = parseInt(this.getAttribute('data-idx'));
+                carrinho.splice(idx, 1);
+                atualizarCarrinhoUI();
+            };
+        });
+    }
+
+    function adicionarAoCarrinho(produto) {
+        // Extrai preço numérico
+        let preco = parseFloat(produto.preco.replace('R$', '').replace(',', '.').trim());
+        // Verifica se já existe no carrinho
+        let idx = carrinho.findIndex(item => item.titulo === produto.titulo);
+        if (idx >= 0) {
+            carrinho[idx].qtd += 1;
+        } else {
+            carrinho.push({
+                titulo: produto.titulo,
+                preco: preco,
+                qtd: 1,
+                imagens: produto.imagens
+            });
+        }
+        atualizarCarrinhoUI();
+    }
+
+    // Adiciona evento aos cards de produto
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.produto-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Evita abrir modal ao clicar no botão "Adicionar ao carrinho"
+                if (e.target.classList.contains('adicionar-carrinho-btn')) return;
+                const produto = JSON.parse(card.getAttribute('data-produto'));
+                abrirModalProduto(produto);
+            });
+        });
+
+        // Botão "Adicionar ao carrinho" nos cards
+        document.querySelectorAll('.adicionar-carrinho-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = btn.closest('.produto-card');
+                const produto = JSON.parse(card.getAttribute('data-produto'));
+                adicionarAoCarrinho(produto);
+                // Abre o carrinho
+                const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('carrinhoOffcanvas'));
+                offcanvas.show();
+            });
+        });
+
+        // Botão "Adicionar ao carrinho" no modal
+        document.getElementById('modalAdicionarCarrinhoBtn').addEventListener('click', function() {
+            if (produtoModalData) {
+                adicionarAoCarrinho(produtoModalData);
+                // Fecha modal e abre carrinho
+                bootstrap.Modal.getInstance(document.getElementById('produtoModal')).hide();
+                const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('carrinhoOffcanvas'));
+                offcanvas.show();
+            }
+        });
+
+        atualizarCarrinhoUI();
+    });
+    </script>
 </body>
 </html>
